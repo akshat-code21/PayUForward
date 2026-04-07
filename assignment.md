@@ -1,7 +1,8 @@
-App Assignment: Finance Manager / Expense Tracker 
-Overview 
-You are required to build a Finance Manager / Expense Tracker mobile application with a clean, modern fintech-style UI. 
+App Assignment: Finance Manager / Expense Tracker   
+Overview   
+You are required to build a Finance Manager / Expense Tracker mobile application with a clean, modern fintech-style UI.   
 This assignment is designed to evaluate: 
+
 - UI/UX skills 
 - Code structure & scalability 
 - Handling of real-world app scenarios 
@@ -18,15 +19,21 @@ Core Requirements (Mandatory)
 - Keyboard handling (smooth UX for forms) 
 - Build Delivery (APK / TestFlight / Play Store internal testing) 
 - GitHub Repository with proper README and setup steps
-Feature Requirements 
-1. Transactions 
+Feature Requirements
+
+1. Transactions
+
 - Add income / expense 
 - Fields: amount, category, date, note 
-- Form validation 
-2. Category-Based Tracking 
+- Form validation
+
+1. Category-Based Tracking
+
 - Predefined or custom categories 
-- Visual distinction (icons/colors) 
-3. Monthly Summary 
+- Visual distinction (icons/colors)
+
+1. Monthly Summary
+
 - Total income 
 - Total expenses 
 - Remaining balance 
@@ -42,7 +49,7 @@ Bonus (Optional)
 - Swipe gestures 
 - Smart empty states 
 Reference Design 
-https://www.figma.com/design/qKoaGcdZEJZPBVC9kPTSi7/app-assignment?node-id=5-35 1&m=dev 
+[https://www.figma.com/design/qKoaGcdZEJZPBVC9kPTSi7/app-assignment?node-id=5-35](https://www.figma.com/design/qKoaGcdZEJZPBVC9kPTSi7/app-assignment?node-id=5-35) 1&m=dev 
 Note: Pixel-perfect design is not mandatory. Creativity is encouraged. 
 Flexibility 
 - Not all features are mandatory 
@@ -62,3 +69,4 @@ Timeline
 Submission 
 - GitHub repo link 
 - APK/TestFlight/build link
+

@@ -32,7 +32,8 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-async-storage/expo-with-async-storage"
+      "@react-native-async-storage/expo-with-async-storage",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true

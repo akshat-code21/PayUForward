@@ -1,31 +1,35 @@
-import { Button } from '@/components/ui/button';
-import { Icon } from '@/components/ui/icon';
-import { Text } from '@/components/ui/text';
-import { useSession } from '@/hooks/useSession';
-import { Link, Redirect } from 'expo-router';
-import { StarIcon, SunIcon, MoonStarIcon } from 'lucide-react-native';
+import React, { useMemo } from 'react';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
+import { Redirect, useRouter } from 'expo-router';
 import { useColorScheme } from 'nativewind';
-import * as React from 'react';
-import { ActivityIndicator, Image, type ImageStyle, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const LOGO = {
-  light: require('@/assets/images/react-native-reusables-light.png'),
-  dark: require('@/assets/images/react-native-reusables-dark.png'),
-};
+import { useSession } from '@/hooks/useSession';
+import { useFinance } from '@/context/FinanceContext';
+import { getMonthBounds, filterTransactionsByMonth, getMonthlySummary } from '@/lib/financeSelectors';
 
-const IMAGE_STYLE: ImageStyle = {
-  height: 76,
-  width: 76,
-};
+import GreetingHeader from '@/components/dashboard/GreetingCard';
+import BalanceCard from '@/components/dashboard/BalanceCard';
+import RecentTransactions from '@/components/dashboard/RecentTransactions';
+import FAB from '@/components/common/FAB';
+import ThemeToggle from '@/components/common/ThemeToggle';
 
-export default function Screen() {
+export default function HomeScreen() {
   const { colorScheme } = useColorScheme();
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
-  const { isLoggedIn, loading } = useSession();
+  const { isLoggedIn, loading: sessionLoading } = useSession();
+  const { transactions, categories, hydrated } = useFinance();
 
-  if (loading) {
+  const monthBounds = useMemo(() => getMonthBounds(new Date()), []);
+  const monthlyTxns = useMemo(
+    () => filterTransactionsByMonth(transactions, monthBounds),
+    [transactions, monthBounds]
+  );
+  const summary = useMemo(() => getMonthlySummary(monthlyTxns), [monthlyTxns]);
+
+  if (sessionLoading || !hydrated) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
         <ActivityIndicator size="large" />
@@ -43,55 +47,38 @@ export default function Screen() {
         className="absolute z-10 flex-row justify-end"
         style={{
           top: insets.top + 8,
-          right: Math.max(insets.right, 12),
-          left: insets.left + 12,
+          right: Math.max(insets.right, 16),
         }}
-        pointerEvents="box-none">
+        pointerEvents="box-none"
+      >
         <ThemeToggle />
       </View>
-      <View className="flex-1 items-center justify-center gap-8 p-4">
-        <Image source={LOGO[colorScheme ?? 'light']} style={IMAGE_STYLE} resizeMode="contain" />
-        <View className="gap-2 p-4">
-          <Text className="ios:text-foreground font-mono text-sm text-muted-foreground">
-            1. Edit <Text variant="code">app/(tabs)/index.tsx</Text> to get started.
-          </Text>
-          <Text className="ios:text-foreground font-mono text-sm text-muted-foreground">
-            2. Save to see your changes instantly.
-          </Text>
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingTop: insets.top + 12,
+          paddingBottom: 100,
+        }}
+      >
+        <GreetingHeader userName="User" />
+        <View className="px-4 mt-3">
+          <BalanceCard
+            balance={summary.remainingBalance}
+            income={summary.totalIncome}
+            expenses={summary.totalExpenses}
+          />
         </View>
-        <View className="flex-row gap-2">
-          <Link href="https://reactnativereusables.com" asChild>
-            <Button>
-              <Text>Browse the Docs</Text>
-            </Button>
-          </Link>
-          <Link href="https://github.com/founded-labs/react-native-reusables" asChild>
-            <Button variant="ghost">
-              <Text>Star the Repo</Text>
-              <Icon as={StarIcon} />
-            </Button>
-          </Link>
+        <View className="mt-6">
+          <RecentTransactions
+            transactions={transactions}
+            categories={categories}
+            onSeeAll={() => router.push('/(tabs)/transactions')}
+            onTransactionPress={() => { }}
+          />
         </View>
-      </View>
+      </ScrollView>
+      <FAB onPress={() => router.push('/(tabs)/transactions')} />
     </View>
-  );
-}
-
-const THEME_ICONS = {
-  light: SunIcon,
-  dark: MoonStarIcon,
-};
-
-function ThemeToggle() {
-  const { colorScheme, toggleColorScheme } = useColorScheme();
-
-  return (
-    <Button
-      onPress={toggleColorScheme}
-      size="icon"
-      variant="outline"
-      className="ios:size-9 rounded-full border-border bg-background/80 shadow-sm">
-      <Icon as={THEME_ICONS[colorScheme ?? 'light']} className="size-5" />
-    </Button>
   );
 }
