@@ -8,6 +8,7 @@ import { Text } from '@/components/ui/text';
 import { useSession } from '@/hooks/useSession';
 import { useFinance } from '@/context/FinanceContext';
 import { COLORS } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import CategoryGrid from '@/components/categories/CategoryGrid';
 import AddCategoryForm from '@/components/categories/AddCategoryForm';
 import ThemeToggle from '@/components/common/ThemeToggle';
@@ -103,7 +104,8 @@ export default function SettingsScreen() {
             <Text
               style={{
                 color: isDark ? COLORS.brand.dark.primary : COLORS.brand.light.primary,
-                fontWeight: '600',
+                fontFamily: BRICOLAGE.semiBold,
+                fontWeight: '400',
                 fontSize: 14,
               }}
             >
@@ -198,7 +200,8 @@ export default function SettingsScreen() {
               style={{
                 color: isDark ? '#f87171' : '#ef4444',
                 fontSize: 14,
-                fontWeight: '600',
+                fontFamily: BRICOLAGE.semiBold,
+                fontWeight: '400',
               }}
             >
               Sign Out

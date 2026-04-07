@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/text';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { COLORS } from '@/lib/colors';
 import { formatMonthYear } from '@/lib/formatters';
-import { addMonths, subMonths } from 'date-fns';
+import { addMonths, isAfter, startOfMonth, subMonths } from 'date-fns';
 import { useColorScheme } from 'nativewind';
 
 type Props = {
@@ -18,8 +18,17 @@ export default function MonthSwitcher({ currentDate, onDateChange }: Props) {
   const isDark = colorScheme === 'dark';
   const iconColor = isDark ? COLORS.text.dark.secondary : COLORS.text.light.secondary;
 
+  const nextMonthStart = startOfMonth(addMonths(currentDate, 1));
+  const thisMonthStart = startOfMonth(new Date());
+  const isNextMonthFuture = isAfter(nextMonthStart, thisMonthStart);
+  const forwardIconColor = isNextMonthFuture
+    ? isDark
+      ? COLORS.text.dark.tertiary
+      : COLORS.text.light.tertiary
+    : iconColor;
+
   return (
-    <View className="flex-row items-center justify-center gap-4 py-2">
+    <View className="flex-row items-center justify-center gap-4 py-2 mt-4">
       <Pressable
         onPress={() => onDateChange(subMonths(currentDate, 1))}
         className="p-1 rounded-lg"
@@ -36,8 +45,11 @@ export default function MonthSwitcher({ currentDate, onDateChange }: Props) {
         onPress={() => onDateChange(addMonths(currentDate, 1))}
         className="p-1 rounded-lg"
         hitSlop={12}
+        disabled={isNextMonthFuture}
+        accessibilityState={{ disabled: isNextMonthFuture }}
+        accessibilityLabel="Next month"
       >
-        <ChevronRight size={22} color={iconColor} />
+        <ChevronRight size={22} color={forwardIconColor} />
       </Pressable>
     </View>
   );

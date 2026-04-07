@@ -4,6 +4,7 @@ import { Text } from '@/components/ui/text';
 import CategoryCard from '@/components/categories/CategoryCard';
 import { Plus } from 'lucide-react-native';
 import { COLORS } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import { useColorScheme } from 'nativewind';
 import type { Category, Transaction } from '@/types/finance';
 
@@ -83,7 +84,8 @@ export default function CategoryGrid({
                         ? COLORS.brand.dark.primary
                         : COLORS.brand.light.primary,
                       fontSize: 13,
-                      fontWeight: '600',
+                      fontFamily: BRICOLAGE.semiBold,
+                      fontWeight: '400',
                       marginTop: 8,
                     }}
                   >

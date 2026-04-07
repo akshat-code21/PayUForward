@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TextInput, Platform } from 'react-native';
 import { Text } from '@/components/ui/text';
 import { COLORS } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import { useColorScheme } from 'nativewind';
 
 const AMOUNT_FONT = 28;
@@ -39,7 +40,8 @@ export default function AmountInput({ value, onChangeText, error }: Props) {
           style={{
             fontSize: AMOUNT_FONT,
             lineHeight: AMOUNT_LINE,
-            fontWeight: '700',
+            fontFamily: BRICOLAGE.bold,
+            fontWeight: '400',
             color: isDark ? COLORS.text.dark.tertiary : COLORS.text.light.tertiary,
             marginRight: 6,
             ...(Platform.OS === 'android' ? { includeFontPadding: false as const } : {}),
@@ -63,7 +65,8 @@ export default function AmountInput({ value, onChangeText, error }: Props) {
             flex: 1,
             fontSize: AMOUNT_FONT,
             lineHeight: AMOUNT_LINE,
-            fontWeight: '700',
+            fontFamily: BRICOLAGE.bold,
+            fontWeight: '400',
             color: isDark ? COLORS.text.dark.primary : COLORS.text.light.primary,
             padding: 0,
             margin: 0,

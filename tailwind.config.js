@@ -1,4 +1,5 @@
 const { hairlineWidth } = require('nativewind/theme');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -7,6 +8,9 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['BricolageGrotesque_400Regular', 'System', 'sans-serif'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -69,5 +73,32 @@ module.exports = {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    // RN: map weight utilities to the correct Bricolage file (fontWeight alone does not switch faces).
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.font-normal': {
+          fontFamily: 'BricolageGrotesque_400Regular',
+          fontWeight: '400',
+        },
+        '.font-medium': {
+          fontFamily: 'BricolageGrotesque_500Medium',
+          fontWeight: '400',
+        },
+        '.font-semibold': {
+          fontFamily: 'BricolageGrotesque_600SemiBold',
+          fontWeight: '400',
+        },
+        '.font-bold': {
+          fontFamily: 'BricolageGrotesque_700Bold',
+          fontWeight: '400',
+        },
+        '.font-extrabold': {
+          fontFamily: 'BricolageGrotesque_800ExtraBold',
+          fontWeight: '400',
+        },
+      });
+    }),
+  ],
 };

@@ -2,6 +2,7 @@ import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from 'nativewind';
 import { COLORS } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 
 export default function TabLayout() {
   const { colorScheme } = useColorScheme();
@@ -13,8 +14,18 @@ export default function TabLayout() {
       backgroundColor={tab.bg}
       iconColor={{ default: tab.inactive, selected: tab.active }}
       labelStyle={{
-        default: { color: tab.inactive, fontSize: 11 },
-        selected: { color: tab.active, fontSize: 11, fontWeight: '600' },
+        default: {
+          color: tab.inactive,
+          fontSize: 11,
+          fontFamily: BRICOLAGE.regular,
+          fontWeight: '400',
+        },
+        selected: {
+          color: tab.active,
+          fontSize: 11,
+          fontFamily: BRICOLAGE.semiBold,
+          fontWeight: '400',
+        },
       }}
       tintColor={tab.active}
     >

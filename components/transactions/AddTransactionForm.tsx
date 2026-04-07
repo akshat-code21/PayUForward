@@ -14,6 +14,7 @@ import CategoryPicker from '@/components/transactions/CategoryPicker';
 import DatePickerRow from '@/components/transactions/DatePickerRow';
 import NoteInput from '@/components/transactions/NoteInput';
 import { COLORS } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import { generateId } from '@/lib/formatters';
 import { useColorScheme } from 'nativewind';
 import type { Transaction, Category } from '@/types/finance';
@@ -149,7 +150,14 @@ export default function AddTransactionForm({
               elevation: 6,
             }}
           >
-            <Text style={{ color: '#fff', fontSize: 16, fontWeight: '700' }}>
+            <Text
+              style={{
+                color: '#fff',
+                fontSize: 16,
+                fontFamily: BRICOLAGE.bold,
+                fontWeight: '400',
+              }}
+            >
               {isEdit ? 'Update Transaction' : 'Save Transaction'}
             </Text>
           </Pressable>

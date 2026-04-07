@@ -3,6 +3,7 @@ import { View, Pressable } from 'react-native';
 import { Text } from '@/components/ui/text';
 import CategoryIcon from '@/components/common/CategoryIcon';
 import { getCategoryColor, COLORS } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import { formatCurrency } from '@/lib/formatters';
 import { useColorScheme } from 'nativewind';
 import type { Category } from '@/types/finance';
@@ -38,7 +39,15 @@ export default function CategoryCard({
       <Text className="text-foreground text-sm font-bold mt-2" numberOfLines={1}>
         {category.name}
       </Text>
-      <Text style={{ color, fontSize: 13, fontWeight: '700', marginTop: 4 }}>
+      <Text
+        style={{
+          color,
+          fontSize: 13,
+          fontFamily: BRICOLAGE.bold,
+          fontWeight: '400',
+          marginTop: 4,
+        }}
+      >
         {formatCurrency(totalAmount)}
       </Text>
       <Text className="text-muted-foreground text-xs mt-0.5">

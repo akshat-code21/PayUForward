@@ -3,6 +3,7 @@ import { View, Pressable } from 'react-native';
 import { Text } from '@/components/ui/text';
 import TransactionRow from '@/components/transactions/TransactionRow';
 import { COLORS } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import { useColorScheme } from 'nativewind';
 import type { Transaction, Category } from '@/types/finance';
 
@@ -44,7 +45,8 @@ export default function RecentTransactions({
                   ? COLORS.brand.dark.primary
                   : COLORS.brand.light.primary,
                 fontSize: 13,
-                fontWeight: '600',
+                fontFamily: BRICOLAGE.semiBold,
+                fontWeight: '400',
               }}
             >
               See All

@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
 import CategoryIcon from '@/components/common/CategoryIcon';
 import { COLORS, getCategoryColor } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import { AVAILABLE_ICONS } from '@/lib/iconMap';
 import { generateId } from '@/lib/formatters';
 import { useColorScheme } from 'nativewind';
@@ -96,13 +97,21 @@ export default function AddCategoryForm({ categoryType, onSave, onCancel }: Prop
                 : isDark ? COLORS.expense.bg.dark : COLORS.expense.bg.light,
             }}
           >
-            <Text style={{
-              color: categoryType === 'income'
-                ? isDark ? COLORS.income.dark : COLORS.income.light
-                : isDark ? COLORS.expense.dark : COLORS.expense.light,
-              fontSize: 13,
-              fontWeight: '600',
-            }}>
+            <Text
+              style={{
+                color:
+                  categoryType === 'income'
+                    ? isDark
+                      ? COLORS.income.dark
+                      : COLORS.income.light
+                    : isDark
+                      ? COLORS.expense.dark
+                      : COLORS.expense.light,
+                fontSize: 13,
+                fontFamily: BRICOLAGE.semiBold,
+                fontWeight: '400',
+              }}
+            >
               {categoryType === 'income' ? 'Income' : 'Expense'}
             </Text>
           </View>
@@ -203,7 +212,14 @@ export default function AddCategoryForm({ categoryType, onSave, onCancel }: Prop
               elevation: 6,
             }}
           >
-            <Text style={{ color: '#fff', fontSize: 16, fontWeight: '700' }}>
+            <Text
+              style={{
+                color: '#fff',
+                fontSize: 16,
+                fontFamily: BRICOLAGE.bold,
+                fontWeight: '400',
+              }}
+            >
               Create Category
             </Text>
           </Pressable>

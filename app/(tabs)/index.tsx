@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import { Redirect, useRouter } from 'expo-router';
 import { useColorScheme } from 'nativewind';
@@ -13,6 +13,9 @@ import BalanceCard from '@/components/dashboard/BalanceCard';
 import RecentTransactions from '@/components/dashboard/RecentTransactions';
 import FAB from '@/components/common/FAB';
 import ThemeToggle from '@/components/common/ThemeToggle';
+import AddTransactionFullscreen from '@/components/transactions/AddTransactionFullscreen';
+
+import type { Transaction } from '@/types/finance';
 
 export default function HomeScreen() {
   const { colorScheme } = useColorScheme();
@@ -20,7 +23,9 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const { isLoggedIn, loading: sessionLoading } = useSession();
-  const { transactions, categories, hydrated } = useFinance();
+  const { transactions, categories, hydrated, addTransaction } = useFinance();
+
+  const [showAddTransaction, setShowAddTransaction] = useState(false);
 
   const monthBounds = useMemo(() => getMonthBounds(new Date()), []);
   const monthlyTxns = useMemo(
@@ -39,6 +44,21 @@ export default function HomeScreen() {
 
   if (!isLoggedIn) {
     return <Redirect href="/sign-in" />;
+  }
+
+  const handleSaveTransaction = (tx: Transaction) => {
+    addTransaction(tx);
+    setShowAddTransaction(false);
+  };
+
+  if (showAddTransaction) {
+    return (
+      <AddTransactionFullscreen
+        categories={categories}
+        onSave={handleSaveTransaction}
+        onClose={() => setShowAddTransaction(false)}
+      />
+    );
   }
 
   return (
@@ -78,7 +98,7 @@ export default function HomeScreen() {
           />
         </View>
       </ScrollView>
-      <FAB onPress={() => router.push('/(tabs)/transactions')} />
+      <FAB onPress={() => setShowAddTransaction(true)} />
     </View>
   );
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Pressable } from 'react-native';
 import { Text } from '@/components/ui/text';
 import CategoryIcon from '@/components/common/CategoryIcon';
+import { BRICOLAGE } from '@/lib/fonts';
 import { formatCurrency, formatDateLabel } from '@/lib/formatters';
 import { COLORS } from '@/lib/colors';
 import { useColorScheme } from 'nativewind';
@@ -45,8 +46,15 @@ export default function TransactionRow({ transaction, category, onPress }: Props
         </Text>
       </View>
 
-      <Text style={{ color: amountColor, fontSize: 14, fontWeight: '700' }}>
-        {amountPrefix}{formatCurrency(transaction.amount)}
+      <Text
+        style={{
+          color: amountColor,
+          fontSize: 14,
+          fontFamily: BRICOLAGE.bold,
+          fontWeight: '400',
+        }}
+      >
+        {amountPrefix} {formatCurrency(transaction.amount)}
       </Text>
     </Pressable>
   );

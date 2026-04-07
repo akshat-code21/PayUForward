@@ -3,6 +3,7 @@ import { View, Pressable, ScrollView } from 'react-native';
 import { Text } from '@/components/ui/text';
 import CategoryIcon from '@/components/common/CategoryIcon';
 import { COLORS, getCategoryColor } from '@/lib/colors';
+import { BRICOLAGE } from '@/lib/fonts';
 import { useColorScheme } from 'nativewind';
 import type { Category } from '@/types/finance';
 
@@ -58,7 +59,8 @@ export default function CategoryPicker({
               <Text
                 style={{
                   fontSize: 13,
-                  fontWeight: '600',
+                  fontFamily: BRICOLAGE.semiBold,
+                  fontWeight: '400',
                   color: isActive
                     ? color
                     : isDark ? COLORS.text.dark.secondary : COLORS.text.light.secondary,
