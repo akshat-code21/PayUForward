@@ -46,17 +46,22 @@ export default function SpendingChart({ data, size = 180 }: Props) {
   const total = data.reduce((s, d) => s + d.value, 0);
   if (total === 0) {
     return (
-      <View className="items-center justify-center" style={{ width: size, height: size }}>
-        <Svg width={size} height={size}>
-          <Path
-            d={describeArc(cx, cy, outerRadius, 0, 359.99)}
-            fill={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}
-          />
-          <Path
-            d={describeArc(cx, cy, innerRadius, 0, 359.99)}
-            fill={isDark ? '#0f0f1a' : '#ffffff'}
-          />
-        </Svg>
+      <View className="items-center gap-3">
+        <View className="items-center justify-center" style={{ width: size, height: size }}>
+          <Svg width={size} height={size}>
+            <Path
+              d={describeArc(cx, cy, outerRadius, 0, 359.99)}
+              fill={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}
+            />
+            <Path
+              d={describeArc(cx, cy, innerRadius, 0, 359.99)}
+              fill={isDark ? '#0f0f1a' : '#ffffff'}
+            />
+          </Svg>
+        </View>
+        <Text className="text-muted-foreground text-sm text-center px-6 leading-5">
+          No expense transactions this month. Spending will appear here once you add some.
+        </Text>
       </View>
     );
   }

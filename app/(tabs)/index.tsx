@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
-import { Redirect, useRouter } from 'expo-router';
-import { useColorScheme } from 'nativewind';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSession } from '@/hooks/useSession';
 import { useFinance } from '@/context/FinanceContext';
 import { getMonthBounds, filterTransactionsByMonth, getMonthlySummary } from '@/lib/financeSelectors';
+import { formatMonthYear } from '@/lib/formatters';
 
 import GreetingHeader from '@/components/dashboard/GreetingCard';
 import BalanceCard from '@/components/dashboard/BalanceCard';
@@ -18,32 +18,29 @@ import AddTransactionFullscreen from '@/components/transactions/AddTransactionFu
 import type { Transaction } from '@/types/finance';
 
 export default function HomeScreen() {
-  const { colorScheme } = useColorScheme();
   const insets = useSafeAreaInsets();
   const router = useRouter();
 
-  const { isLoggedIn, loading: sessionLoading } = useSession();
+  const { displayName } = useSession();
   const { transactions, categories, hydrated, addTransaction } = useFinance();
 
   const [showAddTransaction, setShowAddTransaction] = useState(false);
 
-  const monthBounds = useMemo(() => getMonthBounds(new Date()), []);
+  const now = useMemo(() => new Date(), []);
+  const monthBounds = useMemo(() => getMonthBounds(now), [now]);
   const monthlyTxns = useMemo(
     () => filterTransactionsByMonth(transactions, monthBounds),
     [transactions, monthBounds]
   );
   const summary = useMemo(() => getMonthlySummary(monthlyTxns), [monthlyTxns]);
+  const monthLabel = useMemo(() => formatMonthYear(now), [now]);
 
-  if (sessionLoading || !hydrated) {
+  if (!hydrated) {
     return (
       <View className="flex-1 items-center justify-center bg-background">
         <ActivityIndicator size="large" />
       </View>
     );
-  }
-
-  if (!isLoggedIn) {
-    return <Redirect href="/sign-in" />;
   }
 
   const handleSaveTransaction = (tx: Transaction) => {
@@ -81,9 +78,10 @@ export default function HomeScreen() {
           paddingBottom: 100,
         }}
       >
-        <GreetingHeader userName="User" />
+        <GreetingHeader userName={displayName.trim() || 'User'} />
         <View className="px-4 mt-3">
           <BalanceCard
+            periodLabel={monthLabel}
             balance={summary.remainingBalance}
             income={summary.totalIncome}
             expenses={summary.totalExpenses}
@@ -94,7 +92,8 @@ export default function HomeScreen() {
             transactions={transactions}
             categories={categories}
             onSeeAll={() => router.push('/(tabs)/transactions')}
-            onTransactionPress={() => { }}
+            onTransactionPress={() => router.push('/(tabs)/transactions')}
+            onAddTransaction={() => setShowAddTransaction(true)}
           />
         </View>
       </ScrollView>

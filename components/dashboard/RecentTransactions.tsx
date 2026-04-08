@@ -5,6 +5,7 @@ import TransactionRow from '@/components/transactions/TransactionRow';
 import { COLORS } from '@/lib/colors';
 import { BRICOLAGE } from '@/lib/fonts';
 import { useColorScheme } from 'nativewind';
+import { Plus } from 'lucide-react-native';
 import type { Transaction, Category } from '@/types/finance';
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
   categories: Category[];
   onSeeAll?: () => void;
   onTransactionPress?: (transaction: Transaction) => void;
+  onAddTransaction?: () => void;
   maxItems?: number;
 };
 
@@ -20,6 +22,7 @@ export default function RecentTransactions({
   categories,
   onSeeAll,
   onTransactionPress,
+  onAddTransaction,
   maxItems = 5,
 }: Props) {
   const { colorScheme } = useColorScheme();
@@ -56,10 +59,38 @@ export default function RecentTransactions({
       </View>
 
       {sorted.length === 0 ? (
-        <View className="py-6">
-          <Text className="text-muted-foreground text-sm text-center">
-            No recent transactions
+        <View className="mx-4 mt-2 rounded-2xl border border-foreground/10 bg-muted/30 px-4 py-6">
+          <Text className="text-foreground text-sm font-semibold text-center">
+            Nothing here yet
           </Text>
+          <Text className="text-muted-foreground text-xs text-center mt-2 leading-5 px-1">
+            Add an income or expense to see it show up on your home screen.
+          </Text>
+          {onAddTransaction && (
+            <Pressable
+              onPress={onAddTransaction}
+              accessibilityRole="button"
+              accessibilityLabel="Add your first transaction"
+              className="mt-4 flex-row items-center justify-center gap-2 self-center rounded-xl px-5 py-3 active:opacity-90"
+              style={{
+                backgroundColor: isDark
+                  ? COLORS.brand.dark.primary
+                  : COLORS.brand.light.primary,
+              }}
+            >
+              <Plus size={18} color="#fff" strokeWidth={2.5} />
+              <Text
+                style={{
+                  color: '#fff',
+                  fontFamily: BRICOLAGE.semiBold,
+                  fontWeight: '400',
+                  fontSize: 14,
+                }}
+              >
+                Add transaction
+              </Text>
+            </Pressable>
+          )}
         </View>
       ) : (
         sorted.map((tx) => (

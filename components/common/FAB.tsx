@@ -1,8 +1,11 @@
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 import { Plus } from 'lucide-react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '@/lib/colors';
 import { useColorScheme } from 'nativewind';
+
+const TAB_BAR_OFFSET = Platform.select({ ios: 35, android: 56, default: 35 });
 
 type Props = {
   onPress: () => void;
@@ -11,12 +14,17 @@ type Props = {
 export default function FAB({ onPress }: Props) {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const insets = useSafeAreaInsets();
 
   return (
     <Pressable
       onPress={onPress}
-      className="absolute bottom-28 right-5 z-50 h-14 w-14 items-center justify-center rounded-full"
+      accessibilityRole="button"
+      accessibilityLabel="Add transaction"
+      hitSlop={8}
+      className="absolute right-5 z-50 h-14 w-14 items-center justify-center rounded-full"
       style={{
+        bottom: Math.max(insets.bottom, 12) + TAB_BAR_OFFSET + 8,
         backgroundColor: isDark
           ? COLORS.brand.dark.primary
           : COLORS.brand.light.primary,

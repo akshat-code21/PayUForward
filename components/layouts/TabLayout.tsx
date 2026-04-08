@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
+import { ActivityIndicator, Platform, View } from 'react-native';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
+import { Redirect } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useFonts } from '@expo-google-fonts/bricolage-grotesque';
-import { Platform } from 'react-native';
 import { useColorScheme } from 'nativewind';
 import { COLORS } from '@/lib/colors';
 import { BRICOLAGE, BRICOLAGE_FONT_MAP } from '@/lib/fonts';
+import { useSession } from '@/hooks/useSession';
 
 export default function TabLayout() {
+  const { isLoggedIn, loading: sessionLoading } = useSession();
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
   const tab = isDark ? COLORS.tabBar.dark : COLORS.tabBar.light;
@@ -32,6 +35,18 @@ export default function TabLayout() {
       if (innerFrame !== undefined) cancelAnimationFrame(innerFrame);
     };
   }, [fontsLoaded]);
+
+  if (sessionLoading) {
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return <Redirect href="/sign-in" />;
+  }
 
   return (
     <NativeTabs

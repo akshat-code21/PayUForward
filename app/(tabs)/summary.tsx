@@ -97,9 +97,11 @@ export default function SummaryScreen() {
           <SpendingChart data={chartData} size={180} />
         </View>
 
-        <View className="mt-6">
-          <BreakdownList items={breakdownItems} />
-        </View>
+        {breakdownItems.length > 0 ? (
+          <View className="mt-6">
+            <BreakdownList items={breakdownItems} hideSectionTitle />
+          </View>
+        ) : null}
       </ScrollView>
     </View>
   );

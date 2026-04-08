@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/text';
 import AddTransactionForm from '@/components/transactions/AddTransactionForm';
@@ -14,9 +14,6 @@ type Props = {
   onClose: () => void;
 };
 
-/**
- * Full-screen shell for adding a transaction (header + form). Used from Home and Transactions.
- */
 export default function AddTransactionFullscreen({
   categories,
   onSave,
@@ -28,19 +25,26 @@ export default function AddTransactionFullscreen({
 
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: insets.top }}>
-      <View className="flex-row items-center justify-between px-4 py-3">
+      <View className="flex-row items-center justify-between px-4 py-3 min-h-[52px]">
         <Text className="text-foreground text-lg font-bold">Add Transaction</Text>
-        <Text
+        <Pressable
           onPress={onClose}
-          style={{
-            color: isDark ? COLORS.brand.dark.primary : COLORS.brand.light.primary,
-            fontFamily: BRICOLAGE.semiBold,
-            fontWeight: '400',
-            fontSize: 14,
-          }}
+          hitSlop={12}
+          accessibilityRole="button"
+          accessibilityLabel="Cancel and go back"
+          className="min-w-[44px] min-h-[44px] items-center justify-end"
         >
-          Cancel
-        </Text>
+          <Text
+            style={{
+              color: isDark ? COLORS.brand.dark.primary : COLORS.brand.light.primary,
+              fontFamily: BRICOLAGE.semiBold,
+              fontWeight: '400',
+              fontSize: 14,
+            }}
+          >
+            Cancel
+          </Text>
+        </Pressable>
       </View>
 
       <AddTransactionForm

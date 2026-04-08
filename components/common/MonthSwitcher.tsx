@@ -33,6 +33,8 @@ export default function MonthSwitcher({ currentDate, onDateChange }: Props) {
         onPress={() => onDateChange(subMonths(currentDate, 1))}
         className="p-1 rounded-lg"
         hitSlop={12}
+        accessibilityRole="button"
+        accessibilityLabel="Previous month"
       >
         <ChevronLeft size={22} color={iconColor} />
       </Pressable>

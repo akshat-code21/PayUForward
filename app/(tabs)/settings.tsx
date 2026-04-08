@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Pressable, ScrollView, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from 'nativewind';
 
 import { Text } from '@/components/ui/text';
+import { Input } from '@/components/ui/input';
 import { useSession } from '@/hooks/useSession';
 import { useFinance } from '@/context/FinanceContext';
 import { COLORS } from '@/lib/colors';
 import { BRICOLAGE } from '@/lib/fonts';
 import CategoryGrid from '@/components/categories/CategoryGrid';
 import AddCategoryForm from '@/components/categories/AddCategoryForm';
-import ThemeToggle from '@/components/common/ThemeToggle';
 import SegmentedControl from '@/components/common/SegmentedControl';
 import CategoryTransactionsPanel from '@/components/settings/CategoryTransactionsPanel';
 import { LogOut, Sun, Moon } from 'lucide-react-native';
@@ -27,12 +27,22 @@ export default function SettingsScreen() {
   const router = useRouter();
   const { colorScheme, toggleColorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
-  const { signOut } = useSession();
+  const { signOut, displayName, setDisplayName } = useSession();
   const { categories, transactions, addCategory } = useFinance();
 
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [addCategoryType, setAddCategoryType] = useState<'income' | 'expense'>('expense');
+  const [nameDraft, setNameDraft] = useState(displayName);
+
+  useEffect(() => {
+    setNameDraft(displayName);
+  }, [displayName]);
+
+  const persistDisplayName = () => {
+    void setDisplayName(nameDraft);
+  };
+
 
   const handleSignOut = () => {
     Alert.alert('Sign Out', 'Are you sure you want to sign out?', [
@@ -102,16 +112,46 @@ export default function SettingsScreen() {
 
   return (
     <View className="flex-1 bg-background" style={{ paddingTop: insets.top }}>
-      <View className="flex-row items-center justify-between px-4 py-3">
+      <View className="px-4 py-3">
         <Text className="text-foreground text-xl font-bold">Settings</Text>
-        <ThemeToggle />
       </View>
 
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       >
-        <View className="mt-5">
+        <View className="mt-2">
+          <Text className="text-muted-foreground text-xs font-semibold uppercase tracking-wider px-4 mb-2">
+            Profile
+          </Text>
+          <View
+            className="mx-4 rounded-2xl px-4 py-3.5 gap-2"
+            style={{
+              backgroundColor: isDark
+                ? COLORS.surface.dark.tertiary
+                : COLORS.surface.light.secondary,
+            }}
+          >
+            <Text className="text-foreground text-sm font-medium">Display name</Text>
+            <Input
+              accessibilityLabel="Display name"
+              placeholder="e.g. Alex"
+              value={nameDraft}
+              onChangeText={setNameDraft}
+              onEndEditing={persistDisplayName}
+              onBlur={persistDisplayName}
+              autoCapitalize="words"
+              autoCorrect={false}
+              returnKeyType="done"
+              className="rounded-xl border-foreground/15 h-11"
+            />
+            <Text className="text-muted-foreground text-xs leading-5">
+              Used in your home greeting. You can leave this blank.
+            </Text>
+          </View>
+        </View>
+
+        <View className="mt-6">
           <Text className="text-muted-foreground text-xs font-semibold uppercase tracking-wider px-4 mb-2">
             Appearance
           </Text>

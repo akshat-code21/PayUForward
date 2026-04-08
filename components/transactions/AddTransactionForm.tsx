@@ -17,6 +17,7 @@ import { COLORS } from '@/lib/colors';
 import { BRICOLAGE } from '@/lib/fonts';
 import { generateId } from '@/lib/formatters';
 import { useColorScheme } from 'nativewind';
+import * as Haptics from 'expo-haptics';
 import type { Transaction, Category } from '@/types/finance';
 
 const TYPE_TABS = [
@@ -71,6 +72,8 @@ export default function AddTransactionForm({
 
   const handleSave = () => {
     if (!validate()) return;
+
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
 
     const transaction: Transaction = {
       id: initialTransaction?.id ?? generateId(),

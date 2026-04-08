@@ -9,10 +9,10 @@ type Props = {
   balance: number;
   income: number;
   expenses: number;
+  periodLabel?: string;
 };
 
-
-export default function BalanceCard({ balance, income, expenses }: Props) {
+export default function BalanceCard({ balance, income, expenses, periodLabel }: Props) {
   return (
     <GradientCard variant="balance" className="px-5 pt-6 pb-5">
       <View className="pb-1 p-5">
@@ -21,6 +21,11 @@ export default function BalanceCard({ balance, income, expenses }: Props) {
           style={{ letterSpacing: 0.6 }}>
           Total Balance
         </Text>
+        {periodLabel ? (
+          <Text className="text-white/45 text-xs font-medium mt-1" style={{ letterSpacing: 0.2 }}>
+            {periodLabel}
+          </Text>
+        ) : null}
         <Text
           className="text-white font-extrabold tracking-tight mt-3"
           style={{ fontSize: 36, lineHeight: 42 }}>

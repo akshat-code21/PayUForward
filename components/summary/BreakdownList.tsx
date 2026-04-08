@@ -15,9 +15,10 @@ type BreakdownItem = {
 
 type Props = {
   items: BreakdownItem[];
+  hideSectionTitle?: boolean;
 };
 
-export default function BreakdownList({ items }: Props) {
+export default function BreakdownList({ items, hideSectionTitle }: Props) {
   const { colorScheme } = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -33,9 +34,9 @@ export default function BreakdownList({ items }: Props) {
 
   return (
     <View className="px-4">
-      <Text className="text-foreground text-base font-bold mb-3">
-        Spending Breakdown
-      </Text>
+      {!hideSectionTitle ? (
+        <Text className="text-foreground text-base font-bold mb-3">Spending Breakdown</Text>
+      ) : null}
       {items.map((item) => {
         const { color } = getCategoryColor(item.category.color, isDark);
         return (
