@@ -137,5 +137,5 @@ A **Finance Manager / Expense Tracker** mobile app built with **Expo** and **Rea
 | Local storage | AsyncStorage via app context |
 | README + setup | This document |
 
-**Bonus (optional):** spending chart (pie / donut), swipe-style category panel, structured empty states.
+**Bonus Features Implemented:** spending chart (pie / donut), swipe-style category panel, structured empty states.
 
